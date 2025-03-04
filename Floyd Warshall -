@@ -1,0 +1,40 @@
+//{ Driver Code Starts
+// Initial template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+
+// User function template for C++
+
+class Solution {
+  public:
+    void shortestDistance(vector<vector<int>>& mat) 
+    {
+        int n =  mat.size();
+          for(int i = 0; i<n; i++)
+            {
+            for(int j = 0; j<n; j++)
+            {
+               if(mat[i][j] == -1)
+               mat[i][j] = 1e8;
+            }
+            }
+        
+        for(int k = 0; k <n; k++)
+        {
+            for(int i = 0; i<n; i++)
+            {
+            for(int j = 0; j<n; j++)
+            {
+                if(mat[i][k] != 1e8 and mat[k][j] != 1e8 &&
+                mat[i][k] + mat[k][j] < mat[i][j])
+                mat[i][j] = mat[i][k] + mat[k][j];
+            }
+            }
+        }
+       
+    }
+};
