@@ -1,0 +1,77 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int par[100005];
+int group_size[100005];
+
+// find operation
+void dus_init(int n)
+{
+    for(int i = 1; i<=n; i++)
+    {
+        par[i] = -1;
+        group_size[i] = 1;
+    }
+}
+int find(int node)
+{
+    if (par[node] == -1)
+        return node;
+
+    int leader = find(par[node]);
+    par[node] = leader;
+    return leader;
+}
+
+// Union operation --> 
+// O(alpah*N)
+int max_group_size;
+void dsu_union(int node1, int node2)
+{
+    int leader_A = find(node1);
+    int leader_B = find(node2);
+
+    if(group_size[leader_A] >= group_size[leader_B])
+    {
+        par[leader_B] = leader_A;
+        group_size[leader_A] += group_size[leader_B];
+         
+        max_group_size = max(max_group_size, group_size[leader_A]);
+    }
+    else
+    {
+        par[leader_A] = leader_B;
+        group_size[leader_B] += group_size[leader_A];
+
+        max_group_size = max(max_group_size, group_size[leader_B]);
+    }
+}
+
+int main()
+{
+    int n , m;
+    cin >> n >> m;
+
+    dus_init(n);
+    int cmp = n;
+    max_group_size = 1;
+   
+    while(m--)
+    {
+        int a , b;
+        cin >> a >> b;
+       
+        int leader_a = find(a);
+        int leader_b = find(b);
+        if(leader_a != leader_b)
+        {
+            dsu_union(a, b);
+            cmp--;
+        }
+       
+
+        cout << cmp << " " << max_group_size << "\n";
+    }
+
+    return 0;
+}
